@@ -8,27 +8,20 @@ var thing = new Thing('demo_thing', {
 });
 var temp = thing.bind('temperature');
 
-var pinAccess = require('./accessPin');
-
-var step = 1000;
-var interval;
-
-var temperSensor = pinAccess.analog(0);
-var buttonSensor = pinAccess.digital(2);
+var pinAccessor = require('./pinAccessor');
+var temperPin = pinAccessor.analog(0);
+var buttonPin = pinAccessor.digital(2);
 
 var temperValue = 0;
-var buttonValue = 0;
+
+var step = 1000; //ms
+var interval;
 
 function start_binding() {
 	interval = setInterval(function() {
-
-		temperValue = temperSensor.read();
-		buttonValue = buttonSensor.read();
-
+		temperValue = temperPin.read();
 		temp.set(temperValue);
-
 		console.log(temperValue);
-		console.log(buttonValue);
 
 	}, step);
 }
@@ -39,3 +32,22 @@ function stop_binding() {
 }
 
 start_binding();
+
+
+
+
+
+// Set up digital input on MRAA pin 36 (GP14)
+buttonPin.dir(mraa.DIR_IN);
+
+// Global counter
+var num = 0;
+
+// Our interrupt service routine
+function serviceRoutine() {
+    num++;
+    console.log("BOOP " + num);
+}
+
+// Assign the ISR function to the button push
+buttonPin.isr(mraa.EDGE_FALLING, serviceRoutine);
