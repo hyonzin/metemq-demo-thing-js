@@ -1,6 +1,8 @@
 'use strict'
 
 var mraa = null;
+
+/*
 var analogPin0 = null; //setup access analog input Analog pin #0 (A0)
 var analogValue = 0; //read the value of the analog pin
 
@@ -21,4 +23,37 @@ function getTemperature() {
 
 
 
+}
+*/
+
+exports.digital = function (pinNumber) {
+  if (mraa == null) {
+      mraa = require('mraa');
+  }
+
+  var ret = {
+    pinNumber : pinNumber,
+    pin : new mraa.Dio(pinNumber),
+    read : function () {
+      return this.pin.read();
+    }
+  };
+
+  return ret;
+}
+
+exports.digital = function (pinNumber) {
+  if (mraa == null) {
+      mraa = require('mraa');
+  }
+
+  var ret = {
+    pinNumber : pinNumber,
+    pin : new mraa.Aio(pinNumber),
+    read : function () {
+      return this.pin.read();
+    }
+  };
+
+  return ret;
 }

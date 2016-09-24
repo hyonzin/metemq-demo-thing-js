@@ -8,17 +8,28 @@ var thing = new Thing('demo_thing', {
 });
 var temp = thing.bind('temperature');
 
-var tempGetter = require('./TempGetter');
+var pinAccess = require('./pinAccess');
 
 var step = 1000;
 var interval;
-var val = 0;
+
+var temperSensor = pinAccess.analog(0);
+var buttonSensor = pinAccess.digital(2);
+
+var temperValue = 0;
+var buttonValue = 0;
 
 function start_binding() {
 	interval = setInterval(function() {
-		val = tempGetter();
-		temp.set(val);
-		console.log(val); //TODO delete
+
+		temperValue = temperSensor.read();
+		buttonValue = buttonSensor.read();
+
+		temp.set(temperValue);
+
+		console.log(temperValue);
+		console.log(buttonValue);
+
 	}, step);
 }
 
@@ -28,4 +39,3 @@ function stop_binding() {
 }
 
 start_binding();
-
