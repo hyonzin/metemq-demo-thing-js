@@ -8,7 +8,7 @@ var thing = new Thing('demo_thing', {
 });
 var temp = thing.bind('temperature');
 
-var pinAccess = require('./pinAccess');
+var pinAccess = require('./accessPin');
 
 var step = 1000;
 var interval;
