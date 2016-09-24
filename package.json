@@ -1,0 +1,19 @@
+{
+  "name": "demo_temperature",
+  "version": "1.0.0",
+  "description": "Demo app for MeteMQ",
+  "main": "app.js",
+  "scripts": {
+    "test": "node app"
+  },
+  "keywords": [
+    "MeteMQ",
+    "Meteor",
+    "IoT"
+  ],
+  "author": "Hyonzin",
+  "license": "ISC",
+  "dependencies": {
+    "metemq-thing-js": "^0.1.2"
+  }
+}
