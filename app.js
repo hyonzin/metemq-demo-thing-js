@@ -1,49 +1,69 @@
-"use strict"
+"use strict";
 
-var Thing = require('metemq-thing-js').Thing;
-var thing = new Thing('demo_thing', {
-    //username: 'user',
-    //password: 'secret',
-    url: 'mqtt://metemq.com'
-});
-var temp = thing.bind('temperature');
+(function() {
+	var Thing = require('metemq-thing-js').Thing;
+	var thing = new Thing('demo_thing', {
+		//username: 'user',
+		//password: 'secret',
+		url: 'mqtt://metemq.com'
+	});
 
-var pinAccessor = require('./pinAccessor');
-var temperPin = pinAccessor.analog(0);
-var buttonPin = pinAccessor.digital(2);
+	// binding values to the thing
+	var temperBind = thing.bind('temperature'),
+		buttonBind = thing.bind('button');
 
-var temperValue = 0;
+	// module for accessing sensors
+	var pinAccessor = require('./pinAccessor'),
+		temperPin = pinAccessor.analog(0),
+		buttonPin = pinAccessor.digital(2);
 
-var step = 1000; //ms
-var interval;
+	var temperValue = 0,
+		buttonValue = 0;
 
-function start_binding() {
-	interval = setInterval(function() {
-		temperValue = temperPin.read();
-		temp.set(temperValue);
-		console.log(temperValue);
+	// interval for measure temperature
+	var temperStep = 1000, //ms
+		temperInterval;
 
-	}, step);
-}
-
-function stop_binding() {
-	clearInterval(interval);
-	interval = null;
-}
-
-start_binding();
+	// minimum gap for button
+	var buttonGap = 200, //ms
+		buttonGapTimeout = null;
 
 
+	function start_binding() {
+
+		// interrupt service routine for button
+		function serviceRoutine() {
+			if (buttonGapTimeout != null) return;
+
+			buttonGapTimeout = setTimeout(function() {
+				buttonGapTimeout = null;
+			}, buttonGap);
+
+			buttonValue = (buttonValue==0)? 1 : 0;
+			buttonBind.set(buttonValue);
+
+			console.log("button: " + buttonValue);
+		}
+		
+		buttonPin.isr(serviceRoutine); // Assign the ISR function to the button push
+
+		// start to measure temperature
+		temperInterval = setInterval(function() {
+			temperValue = temperPin.read() * 500 / 1024;
+			temperBind.set(temperValue);
+			console.log("temperature: " + temperValue);
+
+		}, temperStep);
+	}
+
+	function stop_binding() {
+		buttonPin.isrExit();
+
+		clearInterval(temperInterval);
+		temperInterval = null;
+	}
 
 
-// Global counter
-var num = 0;
+	start_binding();
 
-// Our interrupt service routine
-function serviceRoutine() {
-    num++;
-    console.log("BOOP " + num);
-}
-
-// Assign the ISR function to the button push
-buttonPin.isr(serviceRoutine)
+})()

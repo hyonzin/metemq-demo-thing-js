@@ -11,6 +11,7 @@ exports.digital = function (pinNumber) {
     pinNumber : pinNumber,
     pin : new mraa.Gpio(pinNumber),
     direction : null,
+	type : "digital",
     
     read : function () {
       return this.pin.read();
@@ -18,9 +19,13 @@ exports.digital = function (pinNumber) {
     isr : function (serviceRoutine) {
       if (this.direction == null) {
         this.direction = mraa.DIR_IN;
-        buttonPin.dir(this.direction);
+        this.pin.dir(this.direction);
       }
       this.pin.isr(mraa.EDGE_FALLING, serviceRoutine);
+    },
+    isrExit : function () {
+      this.pin.direction = null;
+      this.pin.isrExit();
     }
   };
 
@@ -35,6 +40,8 @@ exports.analog = function (pinNumber) {
   var ret = {
     pinNumber : pinNumber,
     pin : new mraa.Aio(pinNumber),
+	type : "analog",
+
     read : function () {
       return this.pin.read();
     }

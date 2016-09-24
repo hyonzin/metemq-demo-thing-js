@@ -14,7 +14,7 @@
   "author": "Hyonzin",
   "license": "ISC",
   "dependencies": {
-    "metemq-thing-js": "^0.1.2",
+    "metemq-thing-js": "^0.2.1",
     "mraa": "^1.3.0"
   }
 }
