@@ -36,10 +36,6 @@ start_binding();
 
 
 
-
-// Set up digital input on MRAA pin 36 (GP14)
-buttonPin.dir(mraa.DIR_IN);
-
 // Global counter
 var num = 0;
 
@@ -50,4 +46,4 @@ function serviceRoutine() {
 }
 
 // Assign the ISR function to the button push
-buttonPin.isr(mraa.EDGE_FALLING, serviceRoutine);
+buttonPin.isr(serviceRoutine)

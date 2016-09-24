@@ -10,8 +10,17 @@ exports.digital = function (pinNumber) {
   var ret = {
     pinNumber : pinNumber,
     pin : new mraa.Gpio(pinNumber),
+    direction : null,
+    
     read : function () {
       return this.pin.read();
+    },
+    isr : function (serviceRoutine) {
+      if (this.direction == null) {
+        this.direction = mraa.DIR_IN;
+        buttonPin.dir(this.direction);
+      }
+      this.pin.isr(mraa.EDGE_FALLING, serviceRoutine);
     }
   };
 
