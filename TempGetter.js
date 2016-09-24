@@ -16,5 +16,9 @@ function setupAnalogPin() {
 
 function getTemperature() {
   analogValue = analogPin0.read(); //read the value of the analog pin
-  return analogValue;
+  return analogValue*500/1024;
+
+
+
+
 }

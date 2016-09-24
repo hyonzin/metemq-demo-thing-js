@@ -1,22 +1,22 @@
-'use strict'
+"use strict"
 
-const Thing = require('metemq-thing-js').Thing;
-const thing = new Thing('demo_thing', {
+var Thing = require('metemq-thing-js').Thing;
+var thing = new Thing('demo_thing', {
     //username: 'user',
     //password: 'secret',
     url: 'mqtt://metemq.com'
 });
+var temp = thing.bind('temperature');
 
-const temp = thing.bind('temperature');
-const tempGetter = require('./TempGetter');
+var tempGetter = require('./TempGetter');
 
-let step = 1000;
-let interval;
+var step = 1000;
+var interval;
 var val = 0;
 
 function start_binding() {
 	interval = setInterval(function() {
-		// val = tempGetter();
+		val = tempGetter();
 		temp.set(val);
 		console.log(val); //TODO delete
 	}, step);
@@ -28,3 +28,4 @@ function stop_binding() {
 }
 
 start_binding();
+
