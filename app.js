@@ -22,7 +22,7 @@
 
 	// interval for measure temperature
 	var temperStep = 1000, //ms
-		temperInterval;
+		temperInterval = null;
 
 	// minimum gap for button
 	var buttonGap = 200, //ms
