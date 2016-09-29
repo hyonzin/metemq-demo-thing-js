@@ -1,2 +1,1 @@
-# metemq-thing-demo
-Measures Temperature
+# MeteMQ Demo for Thing-js
