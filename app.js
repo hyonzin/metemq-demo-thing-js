@@ -25,7 +25,8 @@
 		temperInterval = null;
 
 	// minimum gap for button
-	var buttonGap = 200, //msfalse		buttonGapTimeout = null;
+	var buttonGap = 200, //ms
+		buttonGapTimeout = null;
 
 
 	function start_binding() {
