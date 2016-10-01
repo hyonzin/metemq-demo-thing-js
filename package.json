@@ -1,6 +1,6 @@
 {
-  "name": "demo_temperature",
-  "version": "1.0.0",
+  "name": "metemq-demo-thing-js",
+  "version": "2.0.0",
   "description": "Demo app for MeteMQ",
   "main": "app.js",
   "scripts": {

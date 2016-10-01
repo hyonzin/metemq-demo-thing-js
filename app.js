@@ -2,7 +2,7 @@
 
 (function() {
 	var Thing = require('metemq-thing-js').Thing;
-	var thing = new Thing('demo_thing', {
+	var thing = new Thing('metemq-demo-edison', {
 		//username: 'user',
 		//password: 'secret',
 		url: 'mqtt://metemq.com'
