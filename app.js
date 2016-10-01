@@ -18,15 +18,14 @@
 		buttonPin = pinAccessor.digital(2);
 
 	var temperValue = 0,
-		buttonValue = 0;
+		buttonValue = false;
 
 	// interval for measure temperature
 	var temperStep = 1000, //ms
 		temperInterval = null;
 
 	// minimum gap for button
-	var buttonGap = 200, //ms
-		buttonGapTimeout = null;
+	var buttonGap = 200, //msfalse		buttonGapTimeout = null;
 
 
 	function start_binding() {
@@ -39,7 +38,7 @@
 				buttonGapTimeout = null;
 			}, buttonGap);
 
-			buttonValue = (buttonValue==0)? 1 : 0;
+			buttonValue = (buttonValue)? false : true;
 			buttonBind.set(buttonValue);
 
 			console.log("button: " + buttonValue);
